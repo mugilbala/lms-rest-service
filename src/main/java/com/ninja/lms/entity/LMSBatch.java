@@ -17,7 +17,8 @@ import java.sql.Timestamp;
 public class LMSBatch {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "batch-seq")
+    @SequenceGenerator(name = "batch-seq", sequenceName = "tbl_lms_batch_batch_id_seq", allocationSize = 1)
     Integer batchId;
     String batchName;
     String batchDescription;
