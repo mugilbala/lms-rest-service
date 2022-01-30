@@ -5,10 +5,7 @@ import com.ninja.lms.jpa.LMSBatchRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,6 +30,12 @@ public class LMSBatchController {
     List<LMSBatch> byNameAndProgramId(@PathVariable("batchName") String batchName, @PathVariable("batchProgramId") Integer batchProgramId) {
         logger.debug("Started get all batches by name and program id..");
         return lmsBatchRepository.findByBatchNameAndProgram_ProgramId(batchName, batchProgramId);
+    }
+
+    @PostMapping("/batch")
+    // Create New Customer
+    LMSBatch createCustomer(@RequestBody LMSBatch newBatch) {
+        return lmsBatchRepository.save(newBatch);
     }
 
 }
