@@ -1,6 +1,7 @@
 package com.ninja.lms.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.ninja.lms.validation.UniqueProgramName;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,6 +25,7 @@ public class LMSProgram {
     Integer programId;
     @NotNull(message = "Program Name is a required field")
     @Column(unique = true)
+    @UniqueProgramName
     String programName;
     String programDescription;
     @NotNull(message = "Program Status is a required field")
