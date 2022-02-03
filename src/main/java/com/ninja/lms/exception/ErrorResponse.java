@@ -1,15 +1,27 @@
 package com.ninja.lms.exception;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import java.util.List;
 
+@JsonPropertyOrder(value = {"code", "message", "details"})
 public class ErrorResponse {
 
-    public ErrorResponse(String message, List<String> details) {
+    //General error message about nature of error
+    private String code;
+    private String message;
+
+    //Specific errors in API request processing
+    private List<String> details;
+
+    public ErrorResponse(String code, String message, List<String> details) {
         super();
+        this.code = code;
         this.message = message;
         this.details = details;
     }
 
+    //Getter and setters
     public String getMessage() {
         return message;
     }
@@ -26,11 +38,12 @@ public class ErrorResponse {
         this.details = details;
     }
 
-    //General error message about nature of error
-    private String message;
+    public String getCode() {
+        return code;
+    }
 
-    //Specific errors in API request processing
-    private List<String> details;
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-    //Getter and setters
 }

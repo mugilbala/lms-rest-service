@@ -6,7 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-@Entity
+@Entity(name = "LMSBatch")
 @Table(name = "TBL_LMS_BATCH")
 @Getter
 @Setter
@@ -28,8 +28,7 @@ public class LMSBatch {
     Timestamp lastModTime;
 
     @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "batch_program_id")
     private LMSProgram program;
 }

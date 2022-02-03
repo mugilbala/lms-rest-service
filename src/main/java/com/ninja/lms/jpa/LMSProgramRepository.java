@@ -8,7 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface LMSProgramRepository extends JpaRepository<LMSProgram, Integer> {
     LMSProgram findByProgramName(String programName);
 
-    LMSProgram findByProgramId(Integer programId);
-
     boolean existsByProgramName(String programName);
 }
