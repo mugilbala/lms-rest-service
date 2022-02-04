@@ -2,11 +2,13 @@ package com.ninja.lms.controller;
 
 import com.ninja.lms.entity.LMSBatch;
 import com.ninja.lms.jpa.LMSBatchRepository;
+import com.ninja.lms.service.LMSBatchService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -16,26 +18,29 @@ public class LMSBatchController {
     Logger logger = LoggerFactory.getLogger(LMSBatchController.class);
 
     @Autowired
+    private LMSBatchService batchService;
+
+    @Autowired
     LMSBatchRepository lmsBatchRepository;
 
     // Get All Batches
     @GetMapping("/batches")
     List<LMSBatch> all() {
         logger.debug("Started get all batches..");
-        return lmsBatchRepository.findAll();
+        return batchService.getAllBatches();
     }
 
-    // Get All Batches by name and program id
+    // Get Batch by name and program id
     @GetMapping("/batches/{batchName}/{batchProgramId}")
-    List<LMSBatch> byNameAndProgramId(@PathVariable("batchName") String batchName, @PathVariable("batchProgramId") Integer batchProgramId) {
+    LMSBatch getBatchByNameAndProgramId(@PathVariable("batchName") String batchName, @PathVariable("batchProgramId") Integer batchProgramId) {
         logger.debug("Started get all batches by name and program id..");
-        return lmsBatchRepository.findByBatchNameAndProgram_ProgramId(batchName, batchProgramId);
+        return batchService.getBatchByBatchNameAndProgramId(batchName, batchProgramId);
     }
 
-    @PostMapping("/batch")
-    // Create New Customer
-    LMSBatch createCustomer(@RequestBody LMSBatch newBatch) {
-        return lmsBatchRepository.save(newBatch);
+    @PostMapping("/program/{batchProgramId}/batch")
+        // Create New batch
+    LMSBatch createCustomer(@PathVariable("batchProgramId") Integer batchProgramId, @Valid @RequestBody LMSBatch newBatch) {
+        return batchService.createBatch(batchProgramId, newBatch);
     }
 
 }

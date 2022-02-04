@@ -11,7 +11,10 @@ import java.sql.Timestamp;
 import java.util.List;
 
 @Entity(name = "LMSProgram")
-@Table(name = "TBL_LMS_PROGRAM", uniqueConstraints = {@UniqueConstraint(name = "tbl_lms_program_program_name_key", columnNames = {"programName"})})
+@Table(name = "TBL_LMS_PROGRAM",
+        uniqueConstraints = {
+            @UniqueConstraint(name = "tbl_lms_program_program_name_key", columnNames = {"programName"})
+        })
 @Getter
 @Setter
 @NoArgsConstructor
@@ -37,7 +40,9 @@ public class LMSProgram {
     Timestamp lastModTime;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "program", fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "program",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
     private List<LMSBatch> batches;
 }
