@@ -1,11 +1,15 @@
 package com.ninja.lms.controller;
 
+import com.ninja.lms.dto.LMSBatchDTO;
 import com.ninja.lms.entity.LMSBatch;
+import com.ninja.lms.entity.LMSProgram;
 import com.ninja.lms.jpa.LMSBatchRepository;
 import com.ninja.lms.service.LMSBatchService;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -13,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/")
+@Validated
 public class LMSBatchController {
 
     Logger logger = LoggerFactory.getLogger(LMSBatchController.class);
@@ -42,5 +47,13 @@ public class LMSBatchController {
     LMSBatch createCustomer(@PathVariable("batchProgramId") Integer batchProgramId, @Valid @RequestBody LMSBatch newBatch) {
         return batchService.createBatch(batchProgramId, newBatch);
     }
+
+
+    // Get Batch by name and program id
+    @PostMapping("/batches/create")
+    LMSBatch getBatchById(@Valid @RequestBody LMSBatchDTO batchDTO) {
+        return batchService.createBatchFromDTO(batchDTO);
+    }
+
 
 }

@@ -1,10 +1,12 @@
 package com.ninja.lms.service;
 
+import com.ninja.lms.dto.LMSBatchDTO;
 import com.ninja.lms.entity.LMSBatch;
 import com.ninja.lms.entity.LMSProgram;
 import com.ninja.lms.exception.LMSException;
 import com.ninja.lms.jpa.LMSBatchRepository;
 import com.ninja.lms.jpa.LMSProgramRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,9 @@ public class LMSBatchService {
 
     @Autowired
     private LMSProgramRepository programRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     public List<LMSBatch> getAllBatches() {
         return batchRepository.findAll();
@@ -47,5 +52,13 @@ public class LMSBatchService {
 
         newBatch.setProgram(program);
         return batchRepository.save(newBatch);
+    }
+
+    public LMSBatch createBatchFromDTO(LMSBatchDTO batchDTO){
+        return this.createBatch(batchDTO.getBatchProgramId(), convertToEntity(batchDTO));
+    }
+
+    public LMSBatch convertToEntity(LMSBatchDTO batchDTO) {
+        return modelMapper.map(batchDTO, LMSBatch.class);
     }
 }
