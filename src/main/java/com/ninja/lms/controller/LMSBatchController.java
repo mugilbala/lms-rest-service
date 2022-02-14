@@ -2,10 +2,7 @@ package com.ninja.lms.controller;
 
 import com.ninja.lms.dto.LMSBatchDTO;
 import com.ninja.lms.entity.LMSBatch;
-import com.ninja.lms.entity.LMSProgram;
-import com.ninja.lms.jpa.LMSBatchRepository;
 import com.ninja.lms.service.LMSBatchService;
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +22,10 @@ public class LMSBatchController {
     @Autowired
     private LMSBatchService batchService;
 
-    @Autowired
-    LMSBatchRepository lmsBatchRepository;
+    @GetMapping("/health")
+    String healthCheck(){
+        return "up";
+    }
 
     // Get All Batches
     @GetMapping("/batches")
@@ -42,16 +41,15 @@ public class LMSBatchController {
         return batchService.getBatchByBatchNameAndProgramId(batchName, batchProgramId);
     }
 
+    // Create New batch
     @PostMapping("/program/{batchProgramId}/batch")
-        // Create New batch
-    LMSBatch createCustomer(@PathVariable("batchProgramId") Integer batchProgramId, @Valid @RequestBody LMSBatch newBatch) {
+    LMSBatch createBatch(@PathVariable("batchProgramId") Integer batchProgramId, @Valid @RequestBody LMSBatch newBatch) {
         return batchService.createBatch(batchProgramId, newBatch);
     }
 
-
-    // Get Batch by name and program id
+    // Create new Batch with DTO
     @PostMapping("/batches/create")
-    LMSBatch getBatchById(@Valid @RequestBody LMSBatchDTO batchDTO) {
+    LMSBatch createBatchWithDto(@Valid @RequestBody LMSBatchDTO batchDTO) {
         return batchService.createBatchFromDTO(batchDTO);
     }
 
